@@ -23,6 +23,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText username,password,password2;
@@ -53,7 +57,6 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     public void Register(String username,String password){
-        //向自己的服务器中添加User
             AVUser user = new AVUser();// 新建 AVUser 对象实例
             user.setUsername(username);// 设置用户名
             user.setPassword(password);// 设置密码
@@ -73,55 +76,36 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
     private void sendRequestWithHttpURLConnection() {
-// 开启线程来发起网络请求
+        final String urlStr = requestPath+"addUser?username="+username.getText().toString();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                HttpURLConnection connection = null;
-                BufferedReader reader = null;
                 try {
-                    URL url = new URL(requestPath+"addUser?username="+username.getText().toString());
-                    connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.setConnectTimeout(8000);
-                    connection.setReadTimeout(8000);
-                    InputStream in = connection.getInputStream();
-// 下面对获取到的输入流进行读取
-                    reader = new BufferedReader(new InputStreamReader(in));
-                    StringBuilder response = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        response.append(line);
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder()
+                            .url(urlStr)
+                            .build();
+                    final Response response = client.newCall(request).execute();
+                    final String responseData = response.body().string();
+                    if("addSuccess".equals(responseData)){
+                        Register(username.getText().toString(),password.getText().toString());
+                    }else{
+                        Log.e("upToMyServer","error:"+responseData);
                     }
-                    showResponse(response.toString());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // 在这里进行 UI 操作，将结果显示到界面上
+                        }
+                    });
+
+
+
                 } catch (Exception e) {
                     e.printStackTrace();
-                } finally {
-                    if (reader != null) {
-                        try {
-                            reader.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (connection != null) {
-                        connection.disconnect();
-                    }
                 }
             }
         }).start();
-    }
-    private void showResponse(final String response) {
-        if("addSuccess".equals(response)){
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-// 在这里进行 UI 操作，将结果显示到界面上
-                    Register(username.getText().toString(),password.getText().toString());
-                }
-            });
-        }
-
     }
 }
 

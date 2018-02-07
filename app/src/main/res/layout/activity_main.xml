@@ -4,30 +4,112 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="700dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
 
             <com.baidu.mapapi.map.MapView
-            android:id="@+id/bmapView"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:clickable="true"
+                android:id="@+id/bmapView"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="6"
+                android:clickable="true" />
 
-            />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/ib_large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+" />
+
+                <Button
+                    android:id="@+id/ib_small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-" />
+
+                <Button
+                    android:id="@+id/ib_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="模式" />
+
+                <Button
+                    android:id="@+id/ib_loc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="自己" />
+
+                <Button
+                    android:id="@+id/ib_marker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="marker" />
+
+
+                <TextView
+                    android:id="@+id/inf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="#FFF"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <Button
+                    android:id="@+id/joinTeam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="joinTeam"
+                    android:layout_weight="1"
+                    />
+                <EditText
+                    android:id="@+id/editTeam"
+                    android:layout_weight="4"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:hint="teamID"
+                    />
+
+            </LinearLayout>Layou
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <Button
-                android:id="@+id/test"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="test"
-                />
-
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="#FFF"
+            >
+                <ListView
+                    android:id="@+id/list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
         </LinearLayout>
+    </android.support.v4.widget.DrawerLayout>
+
+
 </LinearLayout>
